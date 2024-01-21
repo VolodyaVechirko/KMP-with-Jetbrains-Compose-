@@ -11,10 +11,13 @@ fun MainViewController(): UIViewController = ComposeUIViewController {
     CompositionLocalProvider(
         LocalImageLoader provides remember { generateImageLoader() },
     ) {
-        App()
+        ComposeApp()
     }
 }
 
+/**
+ * iOS ImageLoader cache config
+ */
 private fun generateImageLoader(): ImageLoader {
     return ImageLoader {
         takeFrom(ImageLoader.createDefaultIOS())

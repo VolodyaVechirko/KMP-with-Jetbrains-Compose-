@@ -4,6 +4,9 @@ import platform.Foundation.NSCachesDirectory
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSUserDomainMask
 
+/**
+ * iOS cache dir access sample
+ */
 fun getCachePath(): Path {
     return getCacheDir().toPath().resolve("image_cache")
 }

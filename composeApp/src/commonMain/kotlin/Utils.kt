@@ -2,6 +2,9 @@ import com.seiko.imageloader.ImageLoaderConfigBuilder
 import com.seiko.imageloader.util.LogPriority
 import com.seiko.imageloader.util.Logger
 
+/**
+ * Basic config for ImageLoader (logger config)
+ */
 fun ImageLoaderConfigBuilder.commonConfig() {
     logger = object : Logger {
         override fun isLoggable(priority: LogPriority): Boolean = true
@@ -27,6 +30,3 @@ fun ImageLoaderConfigBuilder.commonConfig() {
 
     }
 }
-
-val imageUrl =
-    "https://fastly.picsum.photos/id/1/5000/3333.jpg?hmac=Asv2DU3rA_5D1xSe22xZK47WEAN0wjWeFOhzd13ujW4"

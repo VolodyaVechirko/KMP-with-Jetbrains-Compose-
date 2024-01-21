@@ -24,11 +24,12 @@ kotlin {
             implementation(libs.compose.activity)
 //            implementation(libs.sqlDelight.android)
             implementation(libs.ktor.client.okHttp)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.animation)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
@@ -43,8 +44,12 @@ kotlin {
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serialization.json)
 
-            api(libs.precompose.navigation)
-            api(libs.precompose.viewmodel)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
+            implementation(libs.precompose.navigation)
+            implementation(libs.precompose.viewmodel)
+            implementation(libs.precompose.koin)
             api(libs.image.loader)
         }
         iosMain.dependencies {
@@ -90,6 +95,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     dependencies {
-        debugImplementation(libs.compose.ui.tooling)
+        debugImplementation(compose.uiTooling)
     }
 }

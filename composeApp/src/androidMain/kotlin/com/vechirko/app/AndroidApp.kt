@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 
-class App : Application() {
+class AndroidApp : Application() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         private var context: Context? = null
