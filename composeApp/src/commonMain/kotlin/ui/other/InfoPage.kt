@@ -2,11 +2,15 @@ package ui.other
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +41,32 @@ fun InfoPage() {
         }) {
             Text(greetingText)
         }
+        Spacer(Modifier.height(16.dp))
+        Row(modifier = Modifier.height(60.dp), horizontalArrangement = Arrangement.SpaceAround) {
+            Icon(
+                imageVector = AccountIcon,
+                contentDescription = "Icon",
+                modifier = Modifier.size(56.dp),
+            )
+            Icon(
+//                painterResource("round_auto_awesome_mosaic_24.xml"),
+                imageVector = AutoMosaicIcon,
+                contentDescription = "Icon",
+                modifier = Modifier.size(56.dp),
+            )
+            Icon(
+                imageVector = ComplexIcon,
+                contentDescription = "Apple",
+                modifier = Modifier.size(56.dp),
+            )
+
+            Icon(
+                painterResource("round_add_a_photo_24.xml"),
+                contentDescription = "Icon",
+                modifier = Modifier.size(56.dp),
+            )
+        }
+        Spacer(Modifier.height(16.dp))
         AnimatedVisibility(showImage) {
             Image(
                 painterResource("compose-multiplatform.xml"),
