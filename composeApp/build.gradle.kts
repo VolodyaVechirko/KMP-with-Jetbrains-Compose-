@@ -16,6 +16,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+//            linkerOpts("-lsqlite3")
         }
     }
 
@@ -46,6 +47,8 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            // Used by koin
+            implementation(libs.stately.common)
 
             implementation(libs.precompose.navigation)
             implementation(libs.precompose.viewmodel)
@@ -63,10 +66,6 @@ kotlin {
 android {
     namespace = "com.vechirko.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
         applicationId = "com.vechirko.app"

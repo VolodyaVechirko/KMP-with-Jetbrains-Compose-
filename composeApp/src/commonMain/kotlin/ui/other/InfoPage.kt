@@ -21,6 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import data.Greeting
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.compose_multiplatform
+import kotlinproject.composeapp.generated.resources.round_add_a_photo_24
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -49,7 +52,7 @@ fun InfoPage() {
                 modifier = Modifier.size(56.dp),
             )
             Icon(
-//                painterResource("round_auto_awesome_mosaic_24.xml"),
+//                painterResource(Res.drawable.round_auto_awesome_mosaic_24),
                 imageVector = AutoMosaicIcon,
                 contentDescription = "Icon",
                 modifier = Modifier.size(56.dp),
@@ -61,7 +64,7 @@ fun InfoPage() {
             )
 
             Icon(
-                painterResource("round_add_a_photo_24.xml"),
+                painterResource(Res.drawable.round_add_a_photo_24),
                 contentDescription = "Icon",
                 modifier = Modifier.size(56.dp),
             )
@@ -69,7 +72,7 @@ fun InfoPage() {
         Spacer(Modifier.height(16.dp))
         AnimatedVisibility(showImage) {
             Image(
-                painterResource("compose-multiplatform.xml"),
+                painterResource(Res.drawable.compose_multiplatform),
                 null
             )
         }
