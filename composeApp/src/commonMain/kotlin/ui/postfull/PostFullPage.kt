@@ -25,9 +25,14 @@ import ui.views.ErrorView
 import ui.views.LoadingView
 
 typealias OnBackPressed = () -> Unit
+typealias ShowWebPressed = (String) -> Unit
 
 @Composable
-fun PostFullPage(postId: String, onBackPressed: OnBackPressed) {
+fun PostFullPage(
+    postId: String,
+    onBackPressed: OnBackPressed,
+    showWebPressed: ShowWebPressed,
+) {
     BackHandler(onBack = onBackPressed)
     val viewModel = koinViewModel(
         vmClass = PostFullViewModel::class,
@@ -40,7 +45,8 @@ fun PostFullPage(postId: String, onBackPressed: OnBackPressed) {
         is ScreenState.Error -> ErrorView(it.message)
         is ScreenState.Success -> ContentView(
             model = it.post,
-            onBackPressed = onBackPressed
+            onBackPressed = onBackPressed,
+            showWebPressed = showWebPressed,
         )
     }
 }
@@ -48,7 +54,8 @@ fun PostFullPage(postId: String, onBackPressed: OnBackPressed) {
 @Composable
 private fun ContentView(
     model: PhotoModel,
-    onBackPressed: OnBackPressed = {}
+    onBackPressed: OnBackPressed = {},
+    showWebPressed: ShowWebPressed = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         AutoSizeImage(
@@ -65,7 +72,7 @@ private fun ContentView(
                 Text("Back")
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { }) {
+            Button(onClick = { showWebPressed(model.webUrl) }) {
                 Text("Show on web")
             }
             Spacer(modifier = Modifier.width(16.dp))

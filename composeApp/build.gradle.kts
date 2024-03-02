@@ -51,6 +51,7 @@ kotlin {
             implementation(libs.precompose.viewmodel)
             implementation(libs.precompose.koin)
             api(libs.image.loader)
+            api(libs.webview)
         }
         iosMain.dependencies {
 //            implementation(libs.sqlDelight.native)

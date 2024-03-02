@@ -123,6 +123,12 @@ private fun NavBarConfig(
                 }
             )
         }
+
+        scene(route = Route.WEB_VIEW) {
+            WebViewPage(
+                url = it.query<String>("url")!!,
+            )
+        }
     }
 }
 

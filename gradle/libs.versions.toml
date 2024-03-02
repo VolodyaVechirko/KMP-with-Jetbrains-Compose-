@@ -25,6 +25,7 @@ junit = "4.13.2"
 image-loader = "1.7.1"
 precompose = "1.5.10"
 sqlDelight = "2.0.1"
+webview = "1.8.4"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -52,6 +53,7 @@ compose-activity = { module = "androidx.activity:activity-compose", version.ref 
 #androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 #androidx-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso" }
 
+webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "image-loader" }
 precompose-navigation = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precompose" }
