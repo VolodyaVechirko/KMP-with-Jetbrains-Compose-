@@ -14,6 +14,10 @@ val commonModule = module {
         MainRepository(apiService = get())
     }
 
+    single {
+        ToastManager()
+    }
+
     // ViewModels
 
     factory {

@@ -21,22 +21,28 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import kotlinx.coroutines.launch
+import koin.ToastManager
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.PopUpTo
 import moe.tlaster.precompose.navigation.path
+import moe.tlaster.precompose.navigation.query
 import moe.tlaster.precompose.navigation.rememberNavigator
+import org.koin.compose.getKoin
 import ui.home.MainPage
 import ui.other.AddPostPage
 import ui.other.InfoPage
 import ui.other.StubPage
+import ui.other.WebViewPage
 import ui.postfull.PostFullPage
 
 sealed class Screen(
@@ -50,19 +56,18 @@ sealed class Screen(
     data object More : Screen(Route.MORE, "More", Icons.Filled.Menu)
 }
 
-typealias ShowToastAction = (any: Any) -> Unit
-
 @Composable
 fun MainScaffold() {
-    // TODO: extract navigator to VM; showToast to VM
+    // TODO: extract Navigator to VM
     val navigator = rememberNavigator()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val toastHost = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val showToast: ShowToastAction = {
-        scope.launch {
-            snackbarHostState.showSnackbar(it.toString())
-        }
+    val toastManager = getKoin().get<ToastManager>()
+    LaunchedEffect(Unit) {
+        toastManager.flow
+            .onEach { toastHost.showSnackbar(it.message) }
+            .launchIn(scope)
     }
 
     val tabs = listOf(
@@ -73,9 +78,9 @@ fun MainScaffold() {
     )
 
     Scaffold(
-        topBar = { AppBar(title = "My Universe", showToast = showToast) },
+        topBar = { AppBar(title = "My Universe", showToast = toastManager::show) },
         bottomBar = { BottomNavigation(navigator, tabs) },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(toastHost) },
     ) { padding ->
         NavBarConfig(navigator, modifier = Modifier.padding(padding))
     }
@@ -108,18 +113,22 @@ private fun NavBarConfig(
             StubPage(Screen.More.title)
         }
 
-        scene(route = "${Route.FULL_POST}/{${Route.POST_ID}}") {
-            val postId = it.path<String>(Route.POST_ID)!!
-            PostFullPage(postId = postId, onBackPressed = {
-                navigator.popBackStack()
-            })
+        scene(route = "${Route.FULL_POST}/{postId}") {
+            PostFullPage(
+                postId = it.path<String>("postId")!!,
+                onBackPressed = { navigator.popBackStack() },
+                showWebPressed = { url ->
+                    val route = "${Route.WEB_VIEW}?url=$url"
+                    navigator.navigate(route)
+                }
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppBar(title: String, showToast: ShowToastAction) {
+private fun AppBar(title: String, showToast: (String) -> Unit) {
     TopAppBar(
         title = { Text(text = title) },
         actions = {
@@ -179,6 +188,5 @@ object Route {
     const val FRIENDS = "nav_friends"
     const val MORE = "nav_more"
     const val FULL_POST = "full_post"
-
-    const val POST_ID = "post_id"
+    const val WEB_VIEW = "web_view"
 }

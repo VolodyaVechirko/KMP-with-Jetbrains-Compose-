@@ -19,9 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import koin.ToastManager
+import org.koin.compose.getKoin
 
 @Composable
 fun AddPostPage() {
+    val toastManager = getKoin().get<ToastManager>()
     Column(
         modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -55,7 +58,7 @@ fun AddPostPage() {
         Spacer(Modifier.height(16.dp))
         Text(text = "Selected photos...")
         Spacer(Modifier.height(16.dp))
-        Button(onClick = { }) {
+        Button(onClick = { toastManager.show("Open photo picker") }) {
             // TODO: launch photo picker
             Text(text = "Select photo")
         }
@@ -72,7 +75,7 @@ fun AddPostPage() {
         )
 
         Spacer(Modifier.height(24.dp))
-        Button(onClick = {}, Modifier.fillMaxWidth()) {
+        Button(onClick = { toastManager.show("Create a post") }, Modifier.fillMaxWidth()) {
             // TODO: create a post
             Text(text = "Create post")
         }
