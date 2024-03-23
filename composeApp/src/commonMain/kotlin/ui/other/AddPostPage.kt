@@ -20,11 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import koin.ToastManager
-import org.koin.compose.getKoin
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun AddPostPage() {
-    val toastManager = getKoin().get<ToastManager>()
+fun AddPostPage( // TODO: don't pass it
+    toastManager: ToastManager,
+) {
     Column(
         modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -81,3 +82,9 @@ fun AddPostPage() {
         }
     }
 }
+
+//@Composable
+//@Preview
+//fun AddPostPage_Preview() {
+//    AddPostPage(toastManager = ToastManager())
+//}

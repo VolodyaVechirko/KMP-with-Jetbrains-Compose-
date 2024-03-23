@@ -103,7 +103,9 @@ private fun NavBarConfig(
             })
         }
         scene(route = Route.ADD) {
-            AddPostPage()
+            AddPostPage(
+                toastManager = getKoin().get<ToastManager>()
+            )
         }
         scene(route = Route.FRIENDS) {
             InfoPage()

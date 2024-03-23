@@ -34,6 +34,7 @@ kotlin {
             implementation(compose.animation)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
 
             implementation(libs.kotlin.datetime)
             implementation(libs.coroutines.core)
