@@ -35,18 +35,12 @@ import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.PopUpTo
 import moe.tlaster.precompose.navigation.path
-import moe.tlaster.precompose.navigation.query
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.koin.compose.getKoin
-import ui.home.MainPage
+import ui.home.HomePage
 import ui.more.MorePage
 import ui.other.AddPostPage
-import ui.more.BottomSheetPage
-import ui.more.CollapsingEffectScreen
-import ui.more.CollapsingToolbarScreen
 import ui.other.InfoPage
-import ui.other.StubPage
-import ui.other.WebViewPage
 import ui.postfull.PostFullPage
 
 sealed class Screen(
@@ -54,14 +48,16 @@ sealed class Screen(
     val title: String,
     val icon: ImageVector
 ) {
-    data object Home : Screen(Route.HOME, "Home", Icons.Filled.Home)
-    data object ADD : Screen(Route.ADD, "Add", Icons.Filled.Add)
-    data object Friends : Screen(Route.FRIENDS, "Friends", Icons.Filled.Face)
-    data object More : Screen(Route.MORE, "More", Icons.Filled.Menu)
+    data object Home : Screen(BottomNav.HOME, "Home", Icons.Filled.Home)
+    data object ADD : Screen(BottomNav.ADD, "Add", Icons.Filled.Add)
+    data object Friends : Screen(BottomNav.FRIENDS, "Friends", Icons.Filled.Face)
+    data object More : Screen(BottomNav.MORE, "More", Icons.Filled.Menu)
 }
 
 @Composable
-fun MainScaffold() {
+fun MainPage(
+    rootNavigator: Navigator
+) {
     // TODO: extract Navigator to VM
     val navigator = rememberNavigator()
     val toastHost = remember { SnackbarHostState() }
@@ -86,83 +82,52 @@ fun MainScaffold() {
         bottomBar = { BottomNavigation(navigator, tabs) },
         snackbarHost = { SnackbarHost(toastHost) },
     ) { padding ->
-        NavBarConfig(navigator, modifier = Modifier.padding(padding))
-    }
-}
-
-@Composable
-private fun NavBarConfig(
-    navigator: Navigator,
-    modifier: Modifier
-) {
-    NavHost(
-        modifier = modifier,
-        navigator = navigator,
-        initialRoute = Route.HOME,
-    ) {
-        scene(route = Route.HOME) {
-            MainPage(onInfoClick = { postId ->
-                val route = "${Route.FULL_POST}/$postId"
-                navigator.navigate(route)
-            })
-        }
-        scene(route = Route.ADD) {
-            AddPostPage(
-                toastManager = getKoin().get<ToastManager>()
-            )
-        }
-        scene(route = Route.FRIENDS) {
-            InfoPage()
-        }
-        scene(route = Route.MORE) {
-            MorePage(
-                navigateToSample1 = {
-                    navigator.navigate(Route.SAMPLE_1)
-                },
-                navigateToSample2 = {
-                    navigator.navigate(Route.SAMPLE_2)
-                },
-                navigateToSample3 = {
-                    navigator.navigate(Route.SAMPLE_3)
-                },
-                navigateToSample4 = {
-                    navigator.navigate(Route.SAMPLE_4)
-                },
-            )
-        }
-
-        scene(route = "${Route.FULL_POST}/{postId}") {
-            PostFullPage(
-                postId = it.path<String>("postId")!!,
-                onBackPressed = { navigator.popBackStack() },
-                showWebPressed = { url ->
-                    val route = "${Route.WEB_VIEW}?url=$url"
+        NavHost(
+            modifier = Modifier.padding(padding),
+            navigator = navigator,
+            initialRoute = BottomNav.HOME,
+        ) {
+            scene(route = BottomNav.HOME) {
+                HomePage(onInfoClick = { postId ->
+                    val route = "${BottomNav.FULL_POST}/$postId"
                     navigator.navigate(route)
-                }
-            )
-        }
+                })
+            }
+            scene(route = BottomNav.ADD) {
+                AddPostPage(
+                    toastManager = getKoin().get<ToastManager>()
+                )
+            }
+            scene(route = BottomNav.FRIENDS) {
+                InfoPage()
+            }
+            scene(route = BottomNav.MORE) {
+                MorePage(
+                    navigateToSample1 = {
+                        rootNavigator.navigate(Route.SAMPLE_1)
+                    },
+                    navigateToSample2 = {
+                        rootNavigator.navigate(Route.SAMPLE_2)
+                    },
+                    navigateToSample3 = {
+                        rootNavigator.navigate(Route.SAMPLE_3)
+                    },
+                    navigateToSample4 = {
+                        rootNavigator.navigate(Route.SAMPLE_4)
+                    },
+                )
+            }
 
-        scene(route = Route.WEB_VIEW) {
-            WebViewPage(
-                url = it.query<String>("url")!!,
-            )
-        }
-
-        // More menu samples
-        scene(route = Route.SAMPLE_1) {
-            BottomSheetPage()
-        }
-
-        scene(route = Route.SAMPLE_2) {
-            CollapsingEffectScreen()
-        }
-
-        scene(route = Route.SAMPLE_3) {
-            CollapsingToolbarScreen()
-        }
-
-        scene(route = Route.SAMPLE_4) {
-            StubPage("Stub page")
+            scene(route = "${BottomNav.FULL_POST}/{postId}") {
+                PostFullPage(
+                    postId = it.path<String>("postId")!!,
+                    onBackPressed = { navigator.popBackStack() },
+                    showWebPressed = { url ->
+                        val route = "${Route.WEB_VIEW}?url=$url"
+                        rootNavigator.navigate(route)
+                    }
+                )
+            }
         }
     }
 }
@@ -207,7 +172,7 @@ private fun BottomNavigation(
                     navigator.navigate(
                         screen.route,
                         NavOptions(
-                            popUpTo = PopUpTo(route = Route.HOME, inclusive = true),
+                            popUpTo = PopUpTo(route = BottomNav.HOME, inclusive = true),
                             launchSingleTop = true
                         )
                     )
@@ -223,16 +188,10 @@ private fun Navigator.currentRoute(): String? {
         .value?.route?.route
 }
 
-object Route {
+object BottomNav {
     const val HOME = "nav_home"
     const val ADD = "nav_add"
     const val FRIENDS = "nav_friends"
     const val MORE = "nav_more"
     const val FULL_POST = "full_post"
-    const val WEB_VIEW = "web_view"
-
-    const val SAMPLE_1 = "sample_1"
-    const val SAMPLE_2 = "sample_2"
-    const val SAMPLE_3 = "sample_3"
-    const val SAMPLE_4 = "sample_4"
 }

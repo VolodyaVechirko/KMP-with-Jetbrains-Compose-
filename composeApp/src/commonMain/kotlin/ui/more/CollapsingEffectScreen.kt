@@ -1,7 +1,6 @@
 package ui.more
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,11 +11,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.london_flat
 import kotlinproject.composeapp.generated.resources.material_flat
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -34,7 +33,7 @@ fun CollapsingEffectScreen() {
     ) {
         item {
             Image(
-                painter = painterResource(Res.drawable.material_flat),
+                painter = painterResource(Res.drawable.london_flat),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
@@ -51,7 +50,6 @@ fun CollapsingEffectScreen() {
             Text(
                 text = "Item $it",
                 Modifier
-                    .background(Color.White)
                     .fillMaxWidth()
                     .padding(8.dp)
             )

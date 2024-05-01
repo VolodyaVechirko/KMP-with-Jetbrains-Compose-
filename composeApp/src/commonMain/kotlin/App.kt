@@ -3,7 +3,7 @@ import androidx.compose.runtime.Composable
 import koin.appModule
 import moe.tlaster.precompose.PreComposeApp
 import org.koin.compose.KoinApplication
-import ui.MainScaffold
+import ui.MainNavHost
 
 @Composable
 fun ComposeApp() {
@@ -12,7 +12,7 @@ fun ComposeApp() {
     }) {
         MaterialTheme {
             PreComposeApp {
-                MainScaffold()
+                MainNavHost()
             }
         }
     }

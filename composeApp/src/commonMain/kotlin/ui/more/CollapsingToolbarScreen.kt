@@ -30,7 +30,7 @@ fun CollapsingToolbarScreen() {
             MediumTopAppBar(
                 title = { Text(text = "Scroll Behavior Test") },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             imageVector = Icons.Default.Menu,
                             contentDescription = ""
@@ -40,10 +40,17 @@ fun CollapsingToolbarScreen() {
                 scrollBehavior = scrollBehavior
             )
         }
-    ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth()
+        ) {
             items(testList) { item ->
-                Text(modifier = Modifier.padding(8.dp), text = "Item $item")
+                Text(
+                    text = "Item $item",
+                    modifier = Modifier.padding(8.dp),
+                )
             }
         }
     }

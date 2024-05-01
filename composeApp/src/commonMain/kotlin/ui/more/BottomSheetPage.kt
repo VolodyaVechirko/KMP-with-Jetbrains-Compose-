@@ -46,9 +46,11 @@ fun BottomSheetPage() {
                 }
             )
         }
-    ) { contentPadding ->
+    ) { padding ->
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Text(text = "ModalBottomSheet Sample")

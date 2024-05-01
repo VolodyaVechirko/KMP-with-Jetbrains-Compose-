@@ -22,7 +22,7 @@ import ui.views.ErrorView
 import ui.views.LoadingView
 
 @Composable
-fun MainPage(onInfoClick: (id: String) -> Unit) {
+fun HomePage(onInfoClick: (id: String) -> Unit) {
     val viewModel = koinViewModel(vmClass = MainViewModel::class)
     val state by viewModel.state
 
