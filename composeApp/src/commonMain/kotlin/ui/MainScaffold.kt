@@ -39,7 +39,11 @@ import moe.tlaster.precompose.navigation.query
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.koin.compose.getKoin
 import ui.home.MainPage
+import ui.more.MorePage
 import ui.other.AddPostPage
+import ui.more.BottomSheetPage
+import ui.more.CollapsingEffectScreen
+import ui.more.CollapsingToolbarScreen
 import ui.other.InfoPage
 import ui.other.StubPage
 import ui.other.WebViewPage
@@ -111,8 +115,20 @@ private fun NavBarConfig(
             InfoPage()
         }
         scene(route = Route.MORE) {
-//            MoreView()
-            StubPage(Screen.More.title)
+            MorePage(
+                navigateToSample1 = {
+                    navigator.navigate(Route.SAMPLE_1)
+                },
+                navigateToSample2 = {
+                    navigator.navigate(Route.SAMPLE_2)
+                },
+                navigateToSample3 = {
+                    navigator.navigate(Route.SAMPLE_3)
+                },
+                navigateToSample4 = {
+                    navigator.navigate(Route.SAMPLE_4)
+                },
+            )
         }
 
         scene(route = "${Route.FULL_POST}/{postId}") {
@@ -130,6 +146,23 @@ private fun NavBarConfig(
             WebViewPage(
                 url = it.query<String>("url")!!,
             )
+        }
+
+        // More menu samples
+        scene(route = Route.SAMPLE_1) {
+            BottomSheetPage()
+        }
+
+        scene(route = Route.SAMPLE_2) {
+            CollapsingEffectScreen()
+        }
+
+        scene(route = Route.SAMPLE_3) {
+            CollapsingToolbarScreen()
+        }
+
+        scene(route = Route.SAMPLE_4) {
+            StubPage("Stub page")
         }
     }
 }
@@ -197,4 +230,9 @@ object Route {
     const val MORE = "nav_more"
     const val FULL_POST = "full_post"
     const val WEB_VIEW = "web_view"
+
+    const val SAMPLE_1 = "sample_1"
+    const val SAMPLE_2 = "sample_2"
+    const val SAMPLE_3 = "sample_3"
+    const val SAMPLE_4 = "sample_4"
 }
